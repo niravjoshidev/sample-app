@@ -1,5 +1,5 @@
 import React from 'react'
-import {useFormik} from 'formik'
+import { Formik, Form, Field,ErrorMessage } from 'formik'
 import * as  Yup from 'yup'
 
 export default function FormikForm() {
@@ -7,71 +7,76 @@ export default function FormikForm() {
     const initialValues = {
         name: '',
         email: '',
-        channel: ''
+        channel: '',
+        comments:'',
+        address:''
     }
     const onSubmit = values => {
         console.log('formdata : ', values.name, ' ', values.email, ' ', values.channel);
     }
 
-    const validate = values => {
-        let errors = {};
-        if (!values.name) {
-            errors.name = 'Required'
-        }
-        if (!values.email) {
-            errors.email = 'Required'
-        }
-        if (!values.channel) {
-            errors.channel = 'Required'
-        }
-        return errors;
-    }
-
     const validationSchema = Yup.object({
         name: Yup.string().required('name is required'),
         email: Yup.string().email('invalid email address').required('email is required'),
-        channel: Yup.string().required('channel is required').min(5, 'minimum character should enter')
+        channel: Yup.string().required('channel is required').min(5, 'minimum character should enter'),
+        address:Yup.string().required('Address is required')
     })
 
-    
-    const fmFormik = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema
-        //validate
-    });
+    return (
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            <div className='container my-3'>
+                <div className="row">
+                    <Form>
+                        <div className='form-group'>
+                            <label htmlFor="name" className="form-label">Name</label>
+                            <Field type="text" className='form-control' id='name' name='name' />
+                            <ErrorMessage name='name' />
+                        </div>
 
-   
-    //console.log('visitted : ', fmFormik.touched);
-  return (
-      <div className='container my-3'>
-          <div className="row">
-              <form action="" onSubmit={fmFormik.handleSubmit}>
-                  <div className='form-group'>
-                      <label htmlFor="name" className="form-label">Name</label>
-                      {/* <input type="text" className='form-control' id='name' name='name' onBlur={fmFormik.handleBlur} onChange={fmFormik.handleChange} value={fmFormik.values.name} /> */}
-                      <input type="text" className='form-control' id='name' name='name' {...fmFormik.getFieldProps('name') } />
-                      {fmFormik.touched.name && fmFormik.errors.name ? <div className='text-danger'>{fmFormik.errors.name}</div> : null}
-                  </div>
+                        <div className='form-group'>
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <Field type="text" id='email' className='form-control' name='email' />
+                            <ErrorMessage name='email' />
+                        </div>
 
-                  <div className='form-group'>
-                      <label htmlFor="email" className="form-label">Email</label>
-                      {/* <input type="text" id='email' className='form-control' name='email' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.email} /> */}
-                      <input type="text" id='email' className='form-control' name='email' {...fmFormik.getFieldProps('email')} />
-                      {fmFormik.touched.email &&  fmFormik.errors.email ? <div className='text-danger'>{fmFormik.errors.email}</div> : null}
-                  </div>
+                        <div className='form-group'>
+                            <label htmlFor="channel" className="form-label">Channel</label>
+                            <Field type="text" id='channel' className='form-control' name='channel' />
+                            <ErrorMessage name='channel' />
 
-                  <div className='form-group'>
-                      <label htmlFor="channel" className="form-label">Channel</label>
-                      {/* <input type="text" id='channel' className='form-control' name='channel' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.channel} /> */}
-                      <input type="text" id='channel' className='form-control' name='channel' {...fmFormik.getFieldProps('channel')} />
-                      {fmFormik.touched.channel &&  fmFormik.errors.channel ? <div className='text-danger'>{fmFormik.errors.channel}</div> : null}
-                  </div>
-                  <div className='mb-3 my-3'>
-                    <button type='submit' className='btn btn-primary'>Submit</button>
-                  </div>
-              </form>
-          </div>
-      </div>
+                        </div>
+
+                        <div className='form-group'>
+                            <label htmlFor="comments" className="form-label">Comments</label>
+                            <Field as='textarea'  id='comments' className='form-control' name='comments' />
+                        </div>
+
+                        {/* below fields render using render props method */}
+                        <div className='form-group'>
+                            <label htmlFor="address" className="form-label">Address</label>
+                            <Field name='address'>
+                                {
+                                    (props) => {
+                                        console.log(props);
+                                        const { field, form, meta } = props
+                                        return (
+                                            <>
+                                                <input type="text" className='form-control' id="address" {...field} />
+                                                {meta.touched && meta.error ? <div>{meta.error}</div> : null}
+                                            </>
+                                        )
+
+                                    }
+                                }
+                            </Field>
+                        </div>
+
+                        <div className='mb-3 my-3'>
+                            <button type='submit' className='btn btn-primary'>Submit</button>
+                        </div>
+                    </Form>
+                </div>
+            </div>
+        </Formik>
   )
 }
