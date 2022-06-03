@@ -49,19 +49,22 @@ export default function FormikForm() {
               <form action="" onSubmit={fmFormik.handleSubmit}>
                   <div className='form-group'>
                       <label htmlFor="name" className="form-label">Name</label>
-                      <input type="text" className='form-control' id='name' name='name' onBlur={fmFormik.handleBlur} onChange={fmFormik.handleChange} value={fmFormik.values.name} />
+                      {/* <input type="text" className='form-control' id='name' name='name' onBlur={fmFormik.handleBlur} onChange={fmFormik.handleChange} value={fmFormik.values.name} /> */}
+                      <input type="text" className='form-control' id='name' name='name' {...fmFormik.getFieldProps('name') } />
                       {fmFormik.touched.name && fmFormik.errors.name ? <div className='text-danger'>{fmFormik.errors.name}</div> : null}
                   </div>
 
                   <div className='form-group'>
                       <label htmlFor="email" className="form-label">Email</label>
-                      <input type="text" id='email' className='form-control' name='email' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.email} />
+                      {/* <input type="text" id='email' className='form-control' name='email' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.email} /> */}
+                      <input type="text" id='email' className='form-control' name='email' {...fmFormik.getFieldProps('email')} />
                       {fmFormik.touched.email &&  fmFormik.errors.email ? <div className='text-danger'>{fmFormik.errors.email}</div> : null}
                   </div>
 
                   <div className='form-group'>
                       <label htmlFor="channel" className="form-label">Channel</label>
-                      <input type="text" id='channel' className='form-control' name='channel' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.channel} />
+                      {/* <input type="text" id='channel' className='form-control' name='channel' onBlur={fmFormik.handleBlur}  onChange={fmFormik.handleChange} value={fmFormik.values.channel} /> */}
+                      <input type="text" id='channel' className='form-control' name='channel' {...fmFormik.getFieldProps('channel')} />
                       {fmFormik.touched.channel &&  fmFormik.errors.channel ? <div className='text-danger'>{fmFormik.errors.channel}</div> : null}
                   </div>
                   <div className='mb-3 my-3'>
