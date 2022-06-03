@@ -1,5 +1,6 @@
 import React from 'react'
 import {useFormik} from 'formik'
+import * as  Yup from 'yup'
 
 export default function FormikForm() {
 
@@ -25,12 +26,23 @@ export default function FormikForm() {
         }
         return errors;
     }
+
+    const validationSchema = Yup.object({
+        name: Yup.string().required('name is required'),
+        email: Yup.string().email('invalid email address').required('email is required'),
+        channel: Yup.string().required('channel is required').min(5, 'minimum character should enter')
+    })
+
+    
     const fmFormik = useFormik({
         initialValues,
         onSubmit,
-        validate
+        validationSchema
+        //validate
     });
-    console.log('visitted : ', fmFormik.touched);
+
+   
+    //console.log('visitted : ', fmFormik.touched);
   return (
       <div className='container my-3'>
           <div className="row">
